@@ -1,6 +1,6 @@
-venv310/
 venv/
+venv310/
+venv_nightly/
 __pycache__/
 *.pyc
 .env
-.cache/
