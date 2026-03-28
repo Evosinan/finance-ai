@@ -1,11 +1,19 @@
-# AI / training artifacts
+# Python
+__pycache__/
+*.pyc
+
+# Environments
+venv/
+venv310/
+venv_nightly/
+
+# AI artifacts
 results/
 checkpoints/
 *.pt
 *.bin
 *.ckpt
+*.safetensors
 
-# environments
-venv/
-venv310/
-venv_nightly/
+# OS
+.DS_Store
