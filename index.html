@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Finance AI</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #4964a1;
+    color: white;
+    text-align: center;
+    padding-top: 40px;
+}
+
+.light {
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.container {
+    margin: 20px auto;
+    width: 60%;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: #22c55e;
+    cursor: pointer;
+}
+
+#response {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>💰 Finance AI</h1>
+
+<button onclick="toggleTheme()">Toggle Dark/Light</button>
+<button onclick="openAdmin()">Open Admin Dashboard</button>
+
+<!-- LOGIN -->
+<div class="container">
+    <h3>Login</h3>
+    <input id="email" placeholder="Enter your email" />
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- ASK AI -->
+<div class="container">
+    <h3>Ask AI</h3>
+    <input id="prompt" placeholder="Ask a finance question..." />
+    <button onclick="askAI()">Ask</button>
+    <div id="response"></div>
+</div>
+
+<!-- BUSINESS -->
+<div class="container">
+    <h3>Business Insights</h3>
+    <textarea id="objective" placeholder="Your goals"></textarea>
+    <textarea id="pain" placeholder="Your problems"></textarea>
+    <button onclick="submitBusiness()">Submit</button>
+</div>
+
+<!-- ANALYSIS -->
+<div class="container">
+    <h3>📊 Financial Analysis (Pro)</h3>
+    <input id="income" placeholder="Monthly income" />
+    <input id="expenses" placeholder="Monthly expenses" />
+    <input id="goal" placeholder="Your financial goal" />
+    <button onclick="runAnalysis()">Analyze</button>
+</div>
+
+<!-- FEEDBACK -->
+<div class="container" id="feedback" style="display:none;">
+    <h3>Feedback</h3>
+    <select id="usefulness">
+        <option>Helpful</option>
+        <option>Not Helpful</option>
+    </select>
+    <select id="rating">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+    </select>
+    <textarea id="comment"></textarea>
+    <button onclick="submitFeedback()">Submit Feedback</button>
+</div>
+
+<script>
+let userEmail = "";
+
+function toggleTheme() {
+    document.body.classList.toggle("light");
+}
+
+function openAdmin() {
+    window.open("finance-ai-admin.html", "_blank");
+}
+
+async function login() {
+    const email = document.getElementById("email").value;
+
+    await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ email })
+    });
+
+    userEmail = email;
+    alert("Logged in");
+}
+
+async function askAI() {
+    const prompt = document.getElementById("prompt").value;
+
+    const res = await fetch("http://localhost:8000/generate", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ prompt, email: userEmail })
+    });
+
+    const data = await res.json();
+    document.getElementById("response").innerText = data.response;
+    document.getElementById("feedback").style.display = "block";
+}
+
+async function runAnalysis() {
+    const res = await fetch("http://localhost:8000/analysis", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            email: userEmail,
+            income: parseFloat(document.getElementById("income").value),
+            expenses: parseFloat(document.getElementById("expenses").value),
+            goal: document.getElementById("goal").value
+        })
+    });
+
+    const data = await res.json();
+    document.getElementById("response").innerText = data.response;
+}
+
+async function submitFeedback() {
+    await fetch("http://localhost:8000/feedback", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            usefulness: document.getElementById("usefulness").value,
+            rating: document.getElementById("rating").value,
+            comment: document.getElementById("comment").value
+        })
+    });
+
+    alert("Saved");
+}
+
+async function submitBusiness() {
+    await fetch("http://localhost:8000/business", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            objective: document.getElementById("objective").value,
+            pain: document.getElementById("pain").value
+        })
+    });
+
+    alert("Saved");
+}
+</script>
+
+</body>
+</html>

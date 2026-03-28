@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    padding: 20px;
+}
+
+h1 {
+    color: #22c55e;
+}
+
+.card {
+    background: #1e293b;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>📊 Admin Dashboard</h1>
+
+<div class="card">
+    <h3>Total Users</h3>
+    <p id="users"></p>
+</div>
+
+<div class="card">
+    <h3>Users Data</h3>
+    <pre id="userData"></pre>
+</div>
+
+<div class="card">
+    <h3>Feedback</h3>
+    <pre id="feedback"></pre>
+</div>
+
+<div class="card">
+    <h3>Business Insights</h3>
+    <pre id="business"></pre>
+</div>
+
+<script>
+async function loadAdmin() {
+    const res = await fetch("http://localhost:8000/admin?email=admin@financeai.com");
+    const data = await res.json();
+
+    document.getElementById("users").innerText = data.total_users;
+    document.getElementById("userData").innerText = JSON.stringify(data.users, null, 2);
+    document.getElementById("feedback").innerText = data.feedback.join("\n");
+    document.getElementById("business").innerText = data.business.join("\n");
+}
+
+loadAdmin();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+Objective: H1 | Pain: H2
+Helpful | ⭐ 1 | H 4 & 5
+Objective: H1 | Pain: H2
+Helpful | ⭐ 4 | H 4 & 5
+Helpful | ⭐ 2 | H 4 & 5

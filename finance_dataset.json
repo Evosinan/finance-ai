@@ -1,0 +1,8 @@
+[
+  {
+    "text": "### Instruction:\nAnalyze a monthly financial situation\n\n### Input:\nIncome: 5000, Rent: 2000, Food: 800, Misc: 1000, Debt: 3000\n\n### Response:\n[PASTE ONE FULL MODEL OUTPUT HERE]"
+  },
+  {
+    "text": "### Instruction:\nAnalyze a monthly financial situation\n\n### Input:\nIncome: 6000, Rent: 2500, Food: 900, Misc: 1200, Debt: 5000\n\n### Response:\n[PASTE SECOND OUTPUT HERE]"
+  }
+]
